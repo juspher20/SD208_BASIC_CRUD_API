@@ -1,10 +1,13 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException} from "@nestjs/common";
 
 import { Note } from './notes.model';
 
 @Injectable()
 export class NotesService {
-    private notes: Note[] = [];
+    private notes: Note[] = [
+        
+    ];
     addNote(title: string, desc: string) {
         const noteId = Math.random().toString();
         const newNotes = new Note(noteId, title, desc);
