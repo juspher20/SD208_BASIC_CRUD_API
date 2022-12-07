@@ -7,7 +7,12 @@ import {
     Param,
     Patch,
     Delete,
+    UsePipes,
+    ValidationPipe,
 } from '@nestjs/common';
+
+import { CreateNotesDto } from './dto/createnotes.dto';
+import { Note } from './notes.model';
 
 import { NotesService } from './notes.service';
 
@@ -15,17 +20,23 @@ import { NotesService } from './notes.service';
 export class NotesController {
     constructor(private readonly notesService: NotesService) { }
 
-    @Post()
+    @Post('create')
+
+    @UsePipes(ValidationPipe)//for validation
+    
     addNote(
-        @Body('note_title') noteTitle: string,
-        @Body('description') noteDesc: string,
-    ) {
-        const generatedId = this.notesService.addNote(
-            noteTitle,
-            noteDesc,
-        );
-        return { id: generatedId, title: noteTitle, description: noteDesc};
+        @Body()body: CreateNotesDto): Note{
+        return this.notesService.addNote(body);
     }
+        // @Body('note_title') noteTitle: string,
+        // @Body('description') noteDesc: string,
+    // ): { id: string; } {
+    //     const generatedId = this.notesService.addNote(
+    //         noteTitle,
+    //         noteDesc,
+    //     );
+    //     return { id: generatedId};
+    // }
 
     @Get()
     getAllNotes() {

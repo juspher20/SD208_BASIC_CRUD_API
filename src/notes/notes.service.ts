@@ -1,18 +1,27 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException} from "@nestjs/common";
-
+import { CreateNotesDto } from "./dto/createnotes.dto";
+import {v4 as uuidv4} from 'uuid';
 import { Note } from './notes.model';
 
 @Injectable()
 export class NotesService {
-    private notes: Note[] = [
-        
-    ];
-    addNote(title: string, desc: string) {
-        const noteId = Math.random().toString();
-        const newNotes = new Note(noteId, title, desc);
+    private notes: Note[] = [];
+    // addNote(title: string, ) {
+    //     const noteId = Math.random().toString();
+    //     const newNotes = new Note(noteId, title, desc);
+    //     this.notes.push(newNotes);
+    //     return noteId;
+    // }
+    addNote(note: CreateNotesDto): Note {
+        const {note_title,description} = note;
+        const newNotes: Note = {
+            id: uuidv4(),
+            note_title,
+            description,
+        }
         this.notes.push(newNotes);
-        return noteId;
+        return newNotes 
     }
 
     getNotes() {
